@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Rappi Árabe | Sistema Mesero</title>
+    <title>Rappi Árabe | Sistema Profesional Mesero</title>
     <style>
         * {
             margin: 0;
@@ -13,424 +13,467 @@
         }
 
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background: #0a0c12;
+            font-family: -apple-system, 'Segoe UI', system-ui, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
+            overflow-x: hidden;
         }
 
-        /* Pantalla de carga (DOTS LOADING) */
+        /* Pantalla de carga inicial */
         .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 10%, #1e3a2f, #071a12);
+            background: linear-gradient(135deg, #0a0f1a 0%, #0d1b14 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-            backdrop-filter: blur(2px);
+            z-index: 2000;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .logo-big {
+        .logo-container {
             text-align: center;
-            margin-bottom: 32px;
-            animation: fadeUp 0.8s ease;
+            animation: float 2s ease-in-out infinite;
         }
 
-        .logo-big h1 {
-            font-size: 3.4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFD966, #FFB347);
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-container h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFD700, #FF8C00, #FF4500);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            text-shadow: 0 0 30px rgba(255,140,0,0.3);
+            letter-spacing: -1px;
         }
 
-        .logo-big p {
-            color: #FFD966;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-top: 6px;
-            letter-spacing: 2px;
+        .logo-sub {
+            color: #FFD700;
+            font-weight: 500;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            opacity: 0.9;
         }
 
         .dots-loader {
             display: flex;
-            gap: 12px;
-            margin: 24px 0 40px;
+            gap: 14px;
+            margin: 40px 0 50px;
         }
 
         .dots-loader span {
-            width: 14px;
-            height: 14px;
-            background: #FFB347;
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
             border-radius: 50%;
-            animation: bounce 1.2s infinite ease-in-out;
+            animation: bounce 1.4s infinite ease-in-out;
         }
 
-        .dots-loader span:nth-child(2) { animation-delay: 0.15s; background: #FFD966; }
-        .dots-loader span:nth-child(3) { animation-delay: 0.3s; background: #FFA559; }
+        .dots-loader span:nth-child(2) { animation-delay: 0.15s; background: #FF8C00; }
+        .dots-loader span:nth-child(3) { animation-delay: 0.3s; background: #FF4500; }
 
         @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-            40% { transform: scale(1.2); opacity: 1; }
+            0%, 80%, 100% { transform: scale(0.5); opacity: 0.4; }
+            40% { transform: scale(1.3); opacity: 1; }
         }
 
-        /* Botón deslizante tipo RAPPI */
-        .slide-btn-container {
-            width: 280px;
-            background: rgba(255,255,240,0.08);
-            border-radius: 60px;
-            padding: 4px;
+        /* Botón deslizante estilo RAPPI */
+        .slide-btn-wrapper {
+            width: 300px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 70px;
+            padding: 5px;
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,215,0,0.3);
+            border: 1px solid rgba(255,215,0,0.4);
             cursor: pointer;
-            margin-top: 20px;
+            transition: all 0.3s;
         }
 
         .slide-btn {
-            background: #FFB347;
-            border-radius: 60px;
+            background: linear-gradient(90deg, #FFB347, #FF8C00);
+            border-radius: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 24px;
+            padding: 16px 28px;
             width: 100%;
-            transition: all 0.2s;
-            color: #1e2a1f;
-            font-weight: bold;
-            gap: 12px;
+            color: #1a1a2e;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: transform 0.1s ease;
             user-select: none;
         }
 
-        .slide-text {
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-        }
-
         .slide-arrow {
-            font-size: 1.6rem;
-            transition: transform 0.2s;
+            font-size: 1.8rem;
+            transition: transform 0.3s ease;
         }
 
-        /* pantalla principal mesero (oculta inicialmente) */
+        .slide-btn-wrapper:active .slide-arrow {
+            transform: translateX(8px);
+        }
+
+        /* Panel principal - FULLSCREEN */
         .mesero-panel {
             display: none;
             width: 100%;
-            max-width: 550px;
-            margin: 0 auto;
-            background: #fef9ef;
-            border-radius: 40px;
-            overflow: hidden;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.4);
-            animation: fadeSlide 0.4s ease;
+            min-height: 100vh;
+            background: #f8f5f0;
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(20px);}
-            to { opacity: 1; transform: translateY(0);}
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* header */
-        .header-mesero {
-            background: #1f3b2c;
-            padding: 20px 20px 16px;
+        /* Header mejorado */
+        .header-gourmet {
+            background: linear-gradient(135deg, #1e3a2f 0%, #0f281f 100%);
+            padding: 28px 20px 24px;
             color: white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
-        .header-mesero h2 {
-            font-size: 1.9rem;
+        .header-gourmet h2 {
+            font-size: 2.2rem;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .mesa-selector {
-            background: #2b4a38;
-            border-radius: 40px;
-            padding: 12px 16px;
-            margin-top: 12px;
-            display: flex;
+        .mesa-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            margin-top: 20px;
         }
 
-        .mesa-btn {
-            background: #f4e3b1;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 40px;
-            font-weight: bold;
-            font-size: 1rem;
-            color: #1f2a1b;
-            transition: 0.1s;
+        .mesa-card {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
             cursor: pointer;
-            min-width: 55px;
-        }
-
-        .mesa-btn.active {
-            background: #FFB347;
-            box-shadow: 0 0 0 2px white;
-            color: #1f2f1c;
-        }
-
-        .cliente-input {
-            margin: 12px 0 0;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .cliente-input input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 60px;
-            border: none;
-            font-size: 0.9rem;
-            background: #fff3e0;
-        }
-
-        /* menú categorías */
-        .menu-container {
-            padding: 20px 16px;
-            max-height: 55vh;
-            overflow-y: auto;
-        }
-
-        .categoria {
-            margin-bottom: 24px;
-        }
-
-        .categoria h3 {
-            font-size: 1.4rem;
-            background: #FFE8C5;
-            display: inline-block;
-            padding: 4px 16px;
-            border-radius: 30px;
-            margin-bottom: 14px;
-            color: #4b2e1a;
-        }
-
-        .item-menu {
-            background: white;
-            border-radius: 28px;
-            padding: 12px 16px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            transition: all 0.1s;
-            border: 1px solid #ffdfb8;
-        }
-
-        .item-info {
+            transition: all 0.2s;
+            border: 1px solid rgba(255,215,0,0.3);
             font-weight: 600;
         }
 
-        .item-precio {
-            color: #B85C1A;
-            font-weight: 800;
+        .mesa-card.active {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #1a1a2e;
+            transform: scale(0.98);
+            border-color: white;
         }
 
-        .agregar-btn {
-            background: #ffb347;
-            border: none;
-            width: 38px;
-            height: 38px;
+        /* Input cliente */
+        .cliente-field {
+            margin-top: 18px;
+        }
+
+        .cliente-field input {
+            width: 100%;
+            padding: 14px 18px;
             border-radius: 50px;
-            font-size: 1.5rem;
+            border: none;
+            background: #fff8f0;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* Menú scroll */
+        .menu-scroll {
+            padding: 20px 16px;
+            max-height: 45vh;
+            overflow-y: auto;
+            background: #f8f5f0;
+        }
+
+        .categoria-tag {
+            font-size: 1.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFE8C5, #FFD8A0);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 40px;
+            margin-bottom: 16px;
+            color: #4a2e1a;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 24px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            transition: all 0.2s;
+            border: 1px solid #ffe2b5;
+        }
+
+        .item-card:active {
+            transform: scale(0.98);
+        }
+
+        .item-info h4 {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .precio {
+            color: #e67e22;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #FFB347, #FF8C00);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
             font-weight: bold;
             color: white;
             cursor: pointer;
-            transition: 0.1s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
-        /* carrito flotante */
-        .cart-floating {
-            background: #1f2e24;
-            border-radius: 28px 28px 0 0;
-            padding: 16px;
-            border-top: 3px solid #FFB347;
+        /* Carrito flotante fijo abajo */
+        .cart-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1a2a22;
+            border-radius: 32px 32px 0 0;
+            padding: 18px 20px 28px;
             color: white;
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.3);
+            z-index: 100;
         }
 
         .cart-header {
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            margin-bottom: 12px;
             font-size: 1.2rem;
+            margin-bottom: 12px;
         }
 
-        .cart-items-list {
-            max-height: 210px;
+        .cart-items {
+            max-height: 180px;
             overflow-y: auto;
             margin-bottom: 12px;
         }
 
-        .cart-item {
+        .cart-item-row {
+            background: #2d3f36;
+            border-radius: 30px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
-            background: #2e4238;
-            border-radius: 40px;
-            padding: 8px 12px;
-            margin-bottom: 8px;
             align-items: center;
-            gap: 6px;
-        }
-
-        .cart-item-name {
-            flex: 2;
             font-size: 0.85rem;
         }
 
-        .cart-controls {
+        .cart-controls-group {
             display: flex;
             gap: 12px;
             align-items: center;
         }
 
-        .cart-controls button {
+        .cart-controls-group button {
             background: #FFB347;
             border: none;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 30px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
         }
 
-        .eliminar-item {
-            background: #c0392b;
-            color: white;
-            border-radius: 30px;
-            padding: 4px 10px;
-            font-size: 0.7rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .total-amount {
-            font-size: 1.6rem;
-            font-weight: 800;
+        .total-grande {
+            font-size: 1.8rem;
+            font-weight: 900;
             text-align: right;
-            border-top: 1px solid #FFB347;
+            border-top: 2px solid #FFB347;
             padding-top: 10px;
-            margin: 8px 0;
+            margin-top: 8px;
         }
 
-        .send-slide {
-            background: #ffb347;
+        /* Botón enviar mejorado */
+        .send-slide-btn {
+            background: linear-gradient(90deg, #FFD700, #FF8C00);
             border-radius: 60px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 14px 20px;
-            margin-top: 8px;
+            padding: 16px 24px;
+            margin-top: 12px;
             cursor: pointer;
+            font-weight: 800;
+            color: #1a2a22;
             transition: 0.1s;
-            color: #1c2c1a;
-            font-weight: bold;
         }
 
-        .pedido-exito-toast {
+        /* Modal encargada */
+        .modal-overlay {
             position: fixed;
-            bottom: 30px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background: white;
+            border-radius: 48px;
+            padding: 32px 24px;
+            width: 85%;
+            max-width: 340px;
+            text-align: center;
+            animation: modalPop 0.3s ease;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #1e3a2f;
+        }
+
+        .encargada-opcion {
+            background: #f0ede8;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.1s;
+        }
+
+        .encargada-opcion.selected {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: white;
+        }
+
+        .toast-message {
+            position: fixed;
+            bottom: 100px;
             left: 20px;
             right: 20px;
-            background: #2b7a4b;
+            background: #2ecc71;
             color: white;
             text-align: center;
             padding: 14px;
-            border-radius: 50px;
-            z-index: 1200;
+            border-radius: 60px;
+            z-index: 3500;
             font-weight: bold;
             animation: fadeUp 0.3s;
         }
 
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px);}
-            to { opacity: 1; transform: translateY(0);}
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* botón ver carrito? ya está abajo, pero si quieres un boton adicional */
-        .ver-carrito-btn {
-            background: none;
-            border: none;
-            color: #FFB347;
-            font-weight: bold;
-            font-size: 1rem;
+        .spacer {
+            height: 320px;
         }
     </style>
 </head>
 <body>
 
-<!-- pantalla de loading con logo y boton deslizante -->
+<!-- Pantalla inicial -->
 <div class="loading-screen" id="loadingScreen">
-    <div class="logo-big">
+    <div class="logo-container">
         <h1>🍢 RAPPI ÁRABE</h1>
-        <p>comida de autor · especias del mediterráneo</p>
+        <div class="logo-sub">COCINA DE AUTOR · SABORES DEL MEDITERRÁNEO</div>
     </div>
     <div class="dots-loader">
         <span></span><span></span><span></span>
     </div>
-    <div class="slide-btn-container" id="slideEntryBtn">
-        <div class="slide-btn" id="slideTrigger">
-            <span class="slide-text">DESLIZA PARA ENTRAR →</span>
+    <div class="slide-btn-wrapper" id="entrySlide">
+        <div class="slide-btn">
+            <span>DESLIZA PARA INGRESAR →</span>
             <span class="slide-arrow">➡️</span>
         </div>
     </div>
 </div>
 
-<!-- panel principal mesero -->
+<!-- Panel Mesero -->
 <div class="mesero-panel" id="meseroPanel">
-    <div class="header-mesero">
+    <div class="header-gourmet">
         <h2>🧾 RAPPI ÁRABE</h2>
-        <div class="mesa-selector" id="mesasContainer">
-            <!-- mesas dinamicas del 1 al 6 -->
-        </div>
-        <div class="cliente-input">
-            <input type="text" id="nombreCliente" placeholder="Nombre del cliente" autocomplete="off">
+        <div class="mesa-grid" id="mesasContainer"></div>
+        <div class="cliente-field">
+            <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente" autocomplete="off">
         </div>
     </div>
 
-    <div class="menu-container" id="menuCategorias">
-        <!-- se llena con js -->
-    </div>
+    <div class="menu-scroll" id="menuContainer"></div>
+    <div class="spacer"></div>
 
-    <div class="cart-floating">
+    <div class="cart-bottom">
         <div class="cart-header">
-            <span>🛒 Pedido actual</span>
-            <span id="mesaActualLabel">Mesa: --</span>
+            <span>🛒 PEDIDO</span>
+            <span id="mesaBadge">Mesa --</span>
         </div>
-        <div id="cartItemsList" class="cart-items-list">
-            <div style="text-align:center; opacity:0.7;">Sin productos</div>
-        </div>
-        <div class="total-amount" id="totalCOP">$0 COP</div>
-        <div class="send-slide" id="sendOrderSlide">
+        <div id="cartItemsList" class="cart-items"></div>
+        <div class="total-grande" id="totalCOP">$0 COP</div>
+        <div class="send-slide-btn" id="sendOrderTrigger">
             <span>📨 ENVIAR PEDIDO →</span>
-            <span style="font-size:1.3rem;">👉</span>
+            <span style="font-size:1.4rem;">👉</span>
         </div>
     </div>
 </div>
 
+<!-- Modal encargada -->
+<div class="modal-overlay" id="modalEncargada">
+    <div class="modal-card">
+        <h3>👩‍🍳 ¿QUIÉN ATIENDE?</h3>
+        <div class="encargada-opcion" data-encargada="Paula">👩🏻 PAULA</div>
+        <div class="encargada-opcion" data-encargada="Cindy">👩🏽 CINDY</div>
+    </div>
+</div>
+
 <script>
-    // ----- MENÚ COMPLETO RAPPI ÁRABE -----
+    // ========= CONFIGURACIÓN TELEGRAM =========
+    const TELEGRAM_BOT_TOKEN = "8985589315:AAEnWzP5f2YwSI7dW_gylgtI4pHDZVnkMD8";
+    const TELEGRAM_CHAT_ID = "7806030847";
+
+    // Menú completo
     const menuData = {
         "PLATOS PRINCIPALES": [
             { nombre: "Quibbe", precio: 3000 },
@@ -458,343 +501,244 @@
         ]
     };
 
-    // Estado del pedido { mesaId: { items: {nombre: {cantidad, precio}}, clienteNombre } }
+    // Estado
     let orders = {};
-    let currentMesa = 1;      // mesa activa (1..6)
-    let currentCliente = "";
+    for (let i = 1; i <= 6; i++) orders[i] = { items: {}, cliente: "" };
+    let currentMesa = 1;
+    let selectedEncargada = null;
 
-    // Inicializar estructura para 6 mesas
-    for (let i = 1; i <= 6; i++) {
-        orders[i] = { items: {}, clienteNombre: "" };
-    }
-
-    // función renderizar menú dinámico
+    // Render menú
     function renderMenu() {
-        const container = document.getElementById("menuCategorias");
-        if (!container) return;
+        const container = document.getElementById("menuContainer");
         let html = "";
-        for (let [categoria, items] of Object.entries(menuData)) {
-            html += `<div class="categoria"><h3>${categoria}</h3>`;
+        for (let [cat, items] of Object.entries(menuData)) {
+            html += `<div><div class="categoria-tag">${cat}</div>`;
             items.forEach(item => {
                 html += `
-                    <div class="item-menu">
-                        <div>
-                            <div class="item-info">${item.nombre}</div>
-                            <div class="item-precio">$${item.precio.toLocaleString()} COP</div>
+                    <div class="item-card">
+                        <div class="item-info">
+                            <h4>${item.nombre}</h4>
+                            <div class="precio">$${item.precio.toLocaleString()} COP</div>
                         </div>
-                        <button class="agregar-btn" data-nombre="${item.nombre}" data-precio="${item.precio}">+</button>
+                        <div class="add-btn" data-nombre="${item.nombre}" data-precio="${item.precio}">+</div>
                     </div>
                 `;
             });
             html += `</div>`;
         }
         container.innerHTML = html;
-
-        // agregar eventos a los botones +
-        document.querySelectorAll(".agregar-btn").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                const nombre = btn.getAttribute("data-nombre");
-                const precio = parseInt(btn.getAttribute("data-precio"));
-                agregarProductoAMesa(currentMesa, nombre, precio);
+        document.querySelectorAll(".add-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const nombre = btn.dataset.nombre;
+                const precio = parseInt(btn.dataset.precio);
+                if (!orders[currentMesa].items[nombre]) orders[currentMesa].items[nombre] = { cantidad: 0, precio };
+                orders[currentMesa].items[nombre].cantidad++;
+                if (document.getElementById("nombreCliente").value.trim()) {
+                    orders[currentMesa].cliente = document.getElementById("nombreCliente").value.trim();
+                }
+                renderCart();
             });
         });
     }
 
-    function agregarProductoAMesa(mesa, nombre, precio) {
-        if (!orders[mesa]) orders[mesa] = { items: {}, clienteNombre: "" };
-        const orderMesa = orders[mesa];
-        if (!orderMesa.items[nombre]) {
-            orderMesa.items[nombre] = { cantidad: 1, precio: precio };
-        } else {
-            orderMesa.items[nombre].cantidad += 1;
-        }
-        // si hay nombre cliente en input se asigna, sino mantener
-        const inputCliente = document.getElementById("nombreCliente");
-        if (inputCliente.value.trim() !== "") {
-            orderMesa.clienteNombre = inputCliente.value.trim();
-            currentCliente = inputCliente.value.trim();
-        }
-        renderCarrito();
-    }
-
-    function renderCarrito() {
-        const cartContainer = document.getElementById("cartItemsList");
+    function renderCart() {
+        const cartDiv = document.getElementById("cartItemsList");
         const totalSpan = document.getElementById("totalCOP");
-        const mesaLabel = document.getElementById("mesaActualLabel");
-        if (!cartContainer) return;
-
-        const orderActual = orders[currentMesa] || { items: {}, clienteNombre: "" };
-        const itemsObj = orderActual.items;
-        mesaLabel.innerText = `Mesa: ${currentMesa}`;
-        
-        if (Object.keys(itemsObj).length === 0) {
-            cartContainer.innerHTML = `<div style="text-align:center; opacity:0.7;">Sin productos</div>`;
-            totalSpan.innerText = `$0 COP`;
+        const mesaBadge = document.getElementById("mesaBadge");
+        mesaBadge.innerText = `Mesa ${currentMesa}`;
+        const items = orders[currentMesa].items;
+        if (Object.keys(items).length === 0) {
+            cartDiv.innerHTML = '<div style="text-align:center;opacity:0.7;">Sin productos</div>';
+            totalSpan.innerText = "$0 COP";
             return;
         }
-        
         let total = 0;
-        let cartHtml = "";
-        for (let [nombre, detalle] of Object.entries(itemsObj)) {
-            const subtotal = detalle.cantidad * detalle.precio;
+        let html = "";
+        for (let [nombre, det] of Object.entries(items)) {
+            const subtotal = det.cantidad * det.precio;
             total += subtotal;
-            cartHtml += `
-                <div class="cart-item">
-                    <span class="cart-item-name">${nombre} x${detalle.cantidad}</span>
-                    <div class="cart-controls">
+            html += `
+                <div class="cart-item-row">
+                    <span style="flex:2">${nombre} x${det.cantidad}</span>
+                    <div class="cart-controls-group">
                         <button data-nombre="${nombre}" data-op="sumar">+</button>
                         <button data-nombre="${nombre}" data-op="restar">-</button>
-                        <button class="eliminar-item" data-nombre="${nombre}">🗑️</button>
+                        <button data-nombre="${nombre}" data-op="eliminar" style="background:#c0392b;">🗑️</button>
                     </div>
                     <span>$${subtotal.toLocaleString()}</span>
                 </div>
             `;
         }
-        cartContainer.innerHTML = cartHtml;
+        cartDiv.innerHTML = html;
         totalSpan.innerText = `$${total.toLocaleString()} COP`;
 
-        // agregar eventos de sumar/restar/eliminar
-        document.querySelectorAll(".cart-controls button").forEach(btn => {
+        document.querySelectorAll(".cart-controls-group button").forEach(btn => {
             btn.addEventListener("click", (e) => {
-                e.stopPropagation();
-                const nombre = btn.getAttribute("data-nombre");
-                const op = btn.getAttribute("data-op");
-                const mesa = currentMesa;
-                if (!orders[mesa] || !orders[mesa].items[nombre]) return;
-                
-                if (op === "sumar") {
-                    orders[mesa].items[nombre].cantidad += 1;
-                } else if (op === "restar") {
-                    const nuevaCant = orders[mesa].items[nombre].cantidad - 1;
-                    if (nuevaCant <= 0) {
-                        delete orders[mesa].items[nombre];
-                    } else {
-                        orders[mesa].items[nombre].cantidad = nuevaCant;
-                    }
-                }
-                renderCarrito();
-            });
-        });
-        document.querySelectorAll(".eliminar-item").forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                const nombre = btn.getAttribute("data-nombre");
-                if (orders[currentMesa] && orders[currentMesa].items[nombre]) {
-                    delete orders[currentMesa].items[nombre];
-                    renderCarrito();
-                }
+                const nombre = btn.dataset.nombre;
+                const op = btn.dataset.op;
+                if (op === "sumar") orders[currentMesa].items[nombre].cantidad++;
+                else if (op === "restar") {
+                    if (orders[currentMesa].items[nombre].cantidad > 1) orders[currentMesa].items[nombre].cantidad--;
+                    else delete orders[currentMesa].items[nombre];
+                } else if (op === "eliminar") delete orders[currentMesa].items[nombre];
+                renderCart();
             });
         });
     }
 
-    // cambiar mesa
     function initMesas() {
-        const mesaContainer = document.getElementById("mesasContainer");
-        mesaContainer.innerHTML = "";
+        const container = document.getElementById("mesasContainer");
         for (let i = 1; i <= 6; i++) {
-            const btn = document.createElement("button");
-            btn.innerText = `Mesa ${i}`;
-            btn.classList.add("mesa-btn");
-            if (i === currentMesa) btn.classList.add("active");
-            btn.addEventListener("click", () => {
-                // guardar nombre del cliente actual antes de cambiar
-                const inputCliente = document.getElementById("nombreCliente");
-                if (inputCliente.value.trim() !== "") {
-                    orders[currentMesa].clienteNombre = inputCliente.value.trim();
-                }
+            const div = document.createElement("div");
+            div.className = "mesa-card" + (i === currentMesa ? " active" : "");
+            div.innerText = `Mesa ${i}`;
+            div.onclick = () => {
+                document.getElementById("nombreCliente").value = orders[i].cliente || "";
                 currentMesa = i;
-                // cargar nombre del cliente de esa mesa si existe
-                const clienteGuardado = orders[currentMesa].clienteNombre || "";
-                document.getElementById("nombreCliente").value = clienteGuardado;
-                // actualizar botones activos
-                document.querySelectorAll(".mesa-btn").forEach(btn => btn.classList.remove("active"));
-                btn.classList.add("active");
-                renderCarrito();
-            });
-            mesaContainer.appendChild(btn);
+                document.querySelectorAll(".mesa-card").forEach(c => c.classList.remove("active"));
+                div.classList.add("active");
+                renderCart();
+            };
+            container.appendChild(div);
         }
     }
 
-    // evento input nombre cliente
-    function bindClienteInput() {
-        const input = document.getElementById("nombreCliente");
-        input.addEventListener("input", (e) => {
-            const val = e.target.value;
-            if (orders[currentMesa]) {
-                orders[currentMesa].clienteNombre = val;
-            }
-        });
+    // Envío real a Telegram
+    async function enviarATelegram(mensaje) {
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: mensaje, parse_mode: 'Markdown' })
+            });
+            const data = await res.json();
+            return data.ok;
+        } catch (e) {
+            console.error(e);
+            return false;
+        }
     }
 
-    // ENVIAR PEDIDO a TELEGRAM (simulación + loading dots y deslizamiento)
-    function setupSendOrder() {
-        const sendDiv = document.getElementById("sendOrderSlide");
-        if (!sendDiv) return;
-        
-        let startX = 0, isDragging = false;
-        sendDiv.style.touchAction = "pan-y pinch-zoom";
-        
-        // para escritorio también mouse
-        sendDiv.addEventListener("mousedown", (e) => {
-            startX = e.clientX;
-            isDragging = true;
-            sendDiv.style.transition = "none";
-        });
-        window.addEventListener("mousemove", (e) => {
-            if (!isDragging) return;
-            const diff = e.clientX - startX;
-            if (diff > 70) {
-                // deslizado con éxito
-                isDragging = false;
-                sendDiv.style.transition = "";
-                ejecutarEnvioPedido();
-            }
-        });
-        window.addEventListener("mouseup", () => {
-            isDragging = false;
-            sendDiv.style.transition = "";
-        });
-        
-        sendDiv.addEventListener("touchstart", (e) => {
-            startX = e.touches[0].clientX;
-            isDragging = true;
-            sendDiv.style.transition = "none";
-        });
-        window.addEventListener("touchmove", (e) => {
-            if (!isDragging) return;
-            const diff = e.touches[0].clientX - startX;
-            if (diff > 70) {
-                isDragging = false;
-                sendDiv.style.transition = "";
-                ejecutarEnvioPedido();
-            }
-        });
-        window.addEventListener("touchend", () => {
-            isDragging = false;
-            sendDiv.style.transition = "";
-        });
-    }
-    
-    function ejecutarEnvioPedido() {
-        const order = orders[currentMesa];
-        if (!order || Object.keys(order.items).length === 0) {
-            mostrarToast("⚠️ Agrega productos antes de enviar", "#c0392b");
+    function procesarEnvioConEncargada() {
+        const pedidoActual = orders[currentMesa];
+        if (Object.keys(pedidoActual.items).length === 0) {
+            mostrarToast("⚠️ Agrega productos primero", "#e67e22");
             return;
         }
-        const clienteNom = order.clienteNombre?.trim() || "Cliente sin nombre";
-        // mostrar dots loading en botón temporal? mostrar un overlay loading
-        const loadingOverlay = document.createElement("div");
-        loadingOverlay.style.position = "fixed";
-        loadingOverlay.style.top = "0";
-        loadingOverlay.style.left = "0";
-        loadingOverlay.style.width = "100%";
-        loadingOverlay.style.height = "100%";
-        loadingOverlay.style.backgroundColor = "rgba(0,0,0,0.7)";
-        loadingOverlay.style.display = "flex";
-        loadingOverlay.style.flexDirection = "column";
-        loadingOverlay.style.alignItems = "center";
-        loadingOverlay.style.justifyContent = "center";
-        loadingOverlay.style.zIndex = "2000";
-        loadingOverlay.style.backdropFilter = "blur(6px)";
-        loadingOverlay.innerHTML = `<div style="background:#1f3b2c; padding:32px; border-radius:60px; text-align:center;">
-            <div style="font-size:3rem;">🍢</div>
-            <div class="dots-loader" style="margin:16px 0"><span></span><span></span><span></span></div>
-            <p style="color:white;">Enviando a cocina...</p>
-        </div>`;
-        document.body.appendChild(loadingOverlay);
-        
-        // Simular envio a Telegram (en realidad podría ser webhook)
-        setTimeout(() => {
-            // Construir mensaje detallado
-            let detalleItems = "";
-            for (let [nombre, det] of Object.entries(order.items)) {
-                detalleItems += `🍽️ ${nombre} x${det.cantidad} = $${(det.cantidad * det.precio).toLocaleString()} COP\n`;
-            }
-            let totalPedido = 0;
-            for (let det of Object.entries(order.items)) {
-                totalPedido += det[1].cantidad * det[1].precio;
-            }
-            const mensaje = `🧾 *NUEVO PEDIDO RAPPI ÁRABE*\n👤 Cliente: ${clienteNom}\n🪑 Mesa: ${currentMesa}\n\n📋 Pedido:\n${detalleItems}\n💰 TOTAL: $${totalPedido.toLocaleString()} COP\n⏱️ Enviado desde sistema móvil.`;
-            
-            // Aquí se integraría el webhook real de Telegram. Simulamos en consola.
-            console.log("📤 Enviando a Telegram (simulado):", mensaje);
-            // Simular exito
-            loadingOverlay.remove();
-            mostrarToast("✅ Pedido enviado a la cocina (Telegram)", "#2b7a4b");
-            // limpiar pedido de la mesa actual (opcional: no limpiar si desea mantener, pero lo dejamos para nueva orden)
-            orders[currentMesa] = { items: {}, clienteNombre: orders[currentMesa].clienteNombre || "" };
-            renderCarrito();
-            document.getElementById("nombreCliente").value = orders[currentMesa].clienteNombre || "";
-        }, 1500);
+        if (!pedidoActual.cliente.trim()) {
+            mostrarToast("✏️ Ingresa el nombre del cliente", "#e67e22");
+            return;
+        }
+        // Mostrar modal para elegir encargada
+        const modal = document.getElementById("modalEncargada");
+        modal.style.display = "flex";
+        selectedEncargada = null;
+        document.querySelectorAll(".encargada-opcion").forEach(opt => {
+            opt.classList.remove("selected");
+            opt.onclick = () => {
+                document.querySelectorAll(".encargada-opcion").forEach(o => o.classList.remove("selected"));
+                opt.classList.add("selected");
+                selectedEncargada = opt.dataset.encargada;
+                setTimeout(() => {
+                    modal.style.display = "none";
+                    ejecutarEnvioFinal(selectedEncargada);
+                }, 200);
+            };
+        });
     }
-    
-    function mostrarToast(msg, bg) {
+
+    function ejecutarEnvioFinal(encargada) {
+        if (!encargada) encargada = "No asignada";
+        const pedido = orders[currentMesa];
+        let detalle = "";
+        let total = 0;
+        for (let [nom, det] of Object.entries(pedido.items)) {
+            const subtotal = det.cantidad * det.precio;
+            total += subtotal;
+            detalle += `🍽️ *${nom}* x${det.cantidad} = $${subtotal.toLocaleString()} COP\n`;
+        }
+        const mensaje = `🧾 *NUEVO PEDIDO RAPPI ÁRABE*\n━━━━━━━━━━━━━━━━━━━━━\n👩‍🍳 *Encargada:* ${encargada}\n👤 *Cliente:* ${pedido.cliente}\n🪑 *Mesa:* ${currentMesa}\n⏰ *Hora:* ${new Date().toLocaleTimeString()}\n\n📋 *DETALLE:*\n${detalle}\n━━━━━━━━━━━━━━━━━━━━━\n💰 *TOTAL:* $${total.toLocaleString()} COP\n✅ *Estado:* En preparación`;
+        
+        // Dots loading
+        const loader = document.createElement("div");
+        loader.style.position = "fixed";
+        loader.style.top = "0";
+        loader.style.left = "0";
+        loader.style.width = "100%";
+        loader.style.height = "100%";
+        loader.style.background = "rgba(0,0,0,0.85)";
+        loader.style.backdropFilter = "blur(8px)";
+        loader.style.display = "flex";
+        loader.style.flexDirection = "column";
+        loader.style.alignItems = "center";
+        loader.style.justifyContent = "center";
+        loader.style.zIndex = "4000";
+        loader.innerHTML = `
+            <div style="background:#1f3b2c; border-radius: 60px; padding: 40px; text-align:center;">
+                <div style="font-size: 3rem;">🍢</div>
+                <div class="dots-loader" style="margin: 20px 0;"><span></span><span></span><span></span></div>
+                <p style="color:white; font-weight:bold;">Enviando a cocina...</p>
+            </div>
+        `;
+        document.body.appendChild(loader);
+        
+        enviarATelegram(mensaje).then(exito => {
+            loader.remove();
+            if (exito) {
+                mostrarToast(`✅ Pedido enviado - Encargada: ${encargada}`, "#2ecc71");
+                orders[currentMesa] = { items: {}, cliente: pedido.cliente };
+                document.getElementById("nombreCliente").value = pedido.cliente;
+                renderCart();
+            } else {
+                mostrarToast("❌ Error al enviar a Telegram", "#e74c3c");
+            }
+        });
+    }
+
+    function mostrarToast(msg, color) {
         const toast = document.createElement("div");
-        toast.className = "pedido-exito-toast";
+        toast.className = "toast-message";
         toast.innerText = msg;
-        toast.style.backgroundColor = bg;
+        toast.style.background = color;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 2500);
     }
-    
-    // animación de entrada: botón deslizante en loading screen
+
+    // Botón deslizante inicial
     function initEntrySlide() {
-        const containerBtn = document.getElementById("slideEntryBtn");
-        const slideDiv = document.getElementById("slideTrigger");
-        let startXEntry = 0, draggingEntry = false;
-        let initialClientX = 0;
-        const updateSlide = (diff) => {
+        const wrapper = document.getElementById("entrySlide");
+        let startX = 0, isDragging = false;
+        const onMove = (e) => {
+            if (!isDragging) return;
+            const diff = (e.clientX || e.touches[0].clientX) - startX;
             if (diff > 70) {
-                // desbloquear sistema
+                isDragging = false;
                 document.getElementById("loadingScreen").style.opacity = "0";
                 setTimeout(() => {
                     document.getElementById("loadingScreen").style.display = "none";
                     document.getElementById("meseroPanel").style.display = "block";
-                }, 450);
-                window.removeEventListener("mousemove", mousemoveHandler);
-                window.removeEventListener("mouseup", mouseupHandler);
+                }, 400);
             }
         };
-        const mousemoveHandler = (e) => {
-            if (!draggingEntry) return;
-            const diff = e.clientX - startXEntry;
-            if (diff > 70) updateSlide(diff);
-        };
-        const mouseupHandler = () => {
-            draggingEntry = false;
-        };
-        slideDiv.addEventListener("mousedown", (e) => {
-            startXEntry = e.clientX;
-            draggingEntry = true;
-            window.addEventListener("mousemove", mousemoveHandler);
-            window.addEventListener("mouseup", mouseupHandler);
-        });
-        slideDiv.addEventListener("touchstart", (e) => {
-            startXEntry = e.touches[0].clientX;
-            draggingEntry = true;
-        });
-        window.addEventListener("touchmove", (e) => {
-            if (!draggingEntry) return;
-            const diff = e.touches[0].clientX - startXEntry;
-            if (diff > 70) updateSlide(diff);
-        });
-        window.addEventListener("touchend", () => { draggingEntry = false; });
+        wrapper.addEventListener("mousedown", (e) => { startX = e.clientX; isDragging = true; });
+        wrapper.addEventListener("touchstart", (e) => { startX = e.touches[0].clientX; isDragging = true; });
+        window.addEventListener("mousemove", onMove);
+        window.addEventListener("touchmove", onMove);
+        window.addEventListener("mouseup", () => isDragging = false);
+        window.addEventListener("touchend", () => isDragging = false);
     }
-    
-    // inicialización total
+
     function init() {
         initMesas();
         renderMenu();
-        bindClienteInput();
-        renderCarrito();
-        setupSendOrder();
+        renderCart();
         initEntrySlide();
-        // precargar nombre cliente si existe
-        document.getElementById("nombreCliente").addEventListener("keyup", () => {
-            if(orders[currentMesa]) orders[currentMesa].clienteNombre = document.getElementById("nombreCliente").value;
+        document.getElementById("sendOrderTrigger").addEventListener("click", procesarEnvioConEncargada);
+        document.getElementById("nombreCliente").addEventListener("input", (e) => {
+            orders[currentMesa].cliente = e.target.value;
         });
     }
-    
     init();
 </script>
 </body>
