@@ -14,7 +14,7 @@
 
         body {
             font-family: -apple-system, 'Segoe UI', system-ui, 'Helvetica Neue', sans-serif;
-            background: #f5f3f0;
+            background: #F0EFEA;
             overflow-x: hidden;
         }
 
@@ -25,7 +25,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0a0f1a 0%, #0d1b14 100%);
+            background: linear-gradient(135deg, #e8e4d9, #d4cfc0);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -47,15 +47,14 @@
         .logo-container h1 {
             font-size: 4rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #FFD700, #FF8C00, #FF4500);
+            background: linear-gradient(135deg, #D4A017, #B8860B, #8B6914);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 30px rgba(255,140,0,0.3);
         }
 
         .logo-sub {
-            color: #FFD700;
+            color: #B8860B;
             font-weight: 500;
             letter-spacing: 3px;
             font-size: 0.8rem;
@@ -71,39 +70,39 @@
         .dots-loader span {
             width: 16px;
             height: 16px;
-            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            background: linear-gradient(135deg, #D4A017, #B8860B);
             border-radius: 50%;
             animation: bounce 1.4s infinite ease-in-out;
         }
 
-        .dots-loader span:nth-child(2) { animation-delay: 0.15s; background: #FF8C00; }
-        .dots-loader span:nth-child(3) { animation-delay: 0.3s; background: #FF4500; }
+        .dots-loader span:nth-child(2) { animation-delay: 0.15s; background: #B8860B; }
+        .dots-loader span:nth-child(3) { animation-delay: 0.3s; background: #8B6914; }
 
         @keyframes bounce {
             0%, 80%, 100% { transform: scale(0.5); opacity: 0.4; }
             40% { transform: scale(1.3); opacity: 1; }
         }
 
-        /* Botón deslizante */
+        /* Botón deslizante inicial */
         .slide-btn-wrapper {
             width: 300px;
-            background: rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.08);
             border-radius: 70px;
             padding: 5px;
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,215,0,0.4);
+            border: 1px solid rgba(180, 120, 20, 0.4);
             cursor: pointer;
         }
 
         .slide-btn {
-            background: linear-gradient(90deg, #FFB347, #FF8C00);
+            background: linear-gradient(90deg, #D4A017, #B8860B);
             border-radius: 70px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 16px 28px;
             font-weight: 800;
-            color: #1a1a2e;
+            color: white;
             user-select: none;
         }
 
@@ -111,112 +110,204 @@
         .mesero-panel {
             display: none;
             min-height: 100vh;
-            background: #fef9ef;
+            background: #F0EFEA;
+            flex-direction: column;
         }
 
-        /* HEADER FIJO */
-        .header-fixed {
+        /* HEADER - BARRA SUPERIOR MEJORADA */
+        .header-top {
+            background: #FFFFFF;
+            padding: 20px 20px 18px;
+            border-radius: 0 0 28px 28px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
-            background: linear-gradient(135deg, #1e3a2f 0%, #0f281f 100%);
-            padding: 18px 20px;
-            color: white;
             z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .header-title {
-            font-size: 1.5rem;
-            font-weight: 800;
+        .logo-small {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-bottom: 16px;
         }
 
-        /* Selector de mesa compacto */
-        .mesa-selector-compact {
+        .logo-small span {
+            font-size: 1.8rem;
+        }
+
+        .logo-small h2 {
+            font-size: 1.4rem;
+            color: #8B6914;
+            font-weight: 700;
+        }
+
+        /* Selector compacto */
+        .selector-row {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
-            margin-bottom: 12px;
             flex-wrap: wrap;
         }
 
-        .mesa-selector-compact label {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .mesa-dropdown {
-            background: #2b4a38;
-            border: none;
-            padding: 10px 16px;
+        .mesa-select {
+            background: #F5F3EF;
+            border: 1px solid #E0DCD3;
+            padding: 12px 16px;
             border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #5a4a2a;
             flex: 1;
-            max-width: 140px;
+            min-width: 110px;
+            cursor: pointer;
         }
 
-        .cliente-input-compact {
+        .cliente-input {
             flex: 2;
             min-width: 160px;
         }
 
-        .cliente-input-compact input {
+        .cliente-input input {
             width: 100%;
-            padding: 10px 16px;
+            padding: 12px 16px;
             border-radius: 40px;
-            border: none;
-            background: #fff8f0;
+            border: 1px solid #E0DCD3;
+            background: #F5F3EF;
             font-size: 0.9rem;
         }
 
-        /* Botón toggle carrito */
-        .toggle-cart-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #FFD700, #FF8C00);
+        /* Menú scroll */
+        .menu-scroll {
+            flex: 1;
+            padding: 20px 16px;
+            padding-bottom: 100px;
+        }
+
+        .categoria-tag {
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: #E8E4D9;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 40px;
+            margin-bottom: 14px;
+            color: #6B4E2A;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            border: 1px solid #E8E4D9;
+        }
+
+        .item-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #3D2B1A;
+        }
+
+        .precio {
+            color: #B8860B;
+            font-weight: 800;
+            font-size: 0.85rem;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #D4A017, #B8860B);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            color: #1a2a22;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: white;
             cursor: pointer;
-            z-index: 150;
-            transition: transform 0.2s;
         }
 
-        .toggle-cart-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Carrito oculto por defecto */
-        .cart-bottom {
+        /* BARRA INFERIOR - con puntas superiores circulares */
+        .bottom-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: #1a2a22;
-            border-radius: 32px 32px 0 0;
-            padding: 18px 20px 28px;
-            color: white;
-            z-index: 200;
-            transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            max-height: 70vh;
-            overflow-y: auto;
+            background: #FFFFFF;
+            border-radius: 28px 28px 0 0;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 150;
+            transition: transform 0.3s ease;
         }
 
-        .cart-bottom.open {
+        .bottom-bar-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            gap: 16px;
+        }
+
+        /* Botón deslizable para enviar (SOLO DESLIZAR) */
+        .send-slide-container {
+            flex: 3;
+            background: #F0EFEA;
+            border-radius: 60px;
+            padding: 4px;
+            cursor: pointer;
+        }
+
+        .send-slide-track {
+            background: linear-gradient(90deg, #D4A017, #B8860B);
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            color: white;
+            font-weight: 700;
+            user-select: none;
+            transition: 0.02s linear;
+        }
+
+        /* Botón flecha para mostrar/ocultar carrito */
+        .arrow-toggle {
+            background: #F0EFEA;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: #B8860B;
+            transition: 0.1s;
+        }
+
+        .arrow-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* Carrito que se oculta/muestra */
+        .cart-panel {
+            background: #FFFFFF;
+            border-radius: 28px 28px 0 0;
+            padding: 20px;
+            max-height: 55vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            border-top: 1px solid #E8E4D9;
+        }
+
+        .cart-panel.open {
             transform: translateY(0);
         }
 
@@ -224,8 +315,9 @@
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 12px;
+            color: #5a4a2a;
         }
 
         .cart-items {
@@ -235,8 +327,8 @@
         }
 
         .cart-item-row {
-            background: #2d3f36;
-            border-radius: 30px;
+            background: #F5F3EF;
+            border-radius: 20px;
             padding: 10px 14px;
             margin-bottom: 8px;
             display: flex;
@@ -254,99 +346,34 @@
         }
 
         .cart-controls-group button {
-            background: #FFB347;
+            background: #D4A017;
             border: none;
             width: 32px;
             height: 32px;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
+            color: white;
         }
 
         .total-grande {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
             text-align: right;
-            border-top: 2px solid #FFB347;
+            border-top: 2px solid #D4A017;
             padding-top: 10px;
             margin-top: 8px;
+            color: #8B6914;
         }
 
-        .send-slide-btn {
-            background: linear-gradient(90deg, #FFD700, #FF8C00);
-            border-radius: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 20px;
-            margin-top: 12px;
-            cursor: pointer;
-            font-weight: 800;
-            color: #1a2a22;
-        }
-
-        /* Menú scroll */
-        .menu-scroll {
-            padding: 20px 16px;
-            padding-bottom: 100px;
-        }
-
-        .categoria-tag {
-            font-size: 1.2rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFE8C5, #FFD8A0);
-            display: inline-block;
-            padding: 6px 18px;
-            border-radius: 40px;
-            margin-bottom: 14px;
-            color: #4a2e1a;
-        }
-
-        .item-card {
-            background: white;
-            border-radius: 20px;
-            padding: 12px 16px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #ffe2b5;
-        }
-
-        .item-info h4 {
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-
-        .precio {
-            color: #e67e22;
-            font-weight: 800;
-            font-size: 0.85rem;
-        }
-
-        .add-btn {
-            background: linear-gradient(135deg, #FFB347, #FF8C00);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* Modal para acompañantes de pinchos */
+        /* Modal encargadas */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.85);
             backdrop-filter: blur(8px);
             z-index: 3000;
             display: none;
@@ -357,9 +384,9 @@
         .modal-card {
             background: white;
             border-radius: 48px;
-            padding: 28px 20px;
-            width: 90%;
-            max-width: 340px;
+            padding: 32px 24px;
+            width: 85%;
+            max-width: 320px;
             text-align: center;
             animation: modalPop 0.3s ease;
         }
@@ -370,24 +397,49 @@
         }
 
         .modal-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 20px;
-            color: #1e3a2f;
+            color: #8B6914;
         }
 
-        .opcion-acompanante {
-            background: #f0ede8;
-            padding: 14px;
-            margin: 10px 0;
+        .encargada-opcion {
+            background: #F0EFEA;
+            padding: 16px;
+            margin: 12px 0;
             border-radius: 60px;
             cursor: pointer;
             font-weight: bold;
             transition: 0.1s;
+            color: #5a4a2a;
+        }
+
+        /* Mensaje éxito estilo Didi */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 60px;
+            text-align: center;
+            z-index: 4000;
+            animation: successPop 0.3s ease;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        @keyframes successPop {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
         .toast-message {
             position: fixed;
-            bottom: 100px;
+            bottom: 120px;
             left: 20px;
             right: 20px;
             background: #2ecc71;
@@ -396,21 +448,6 @@
             padding: 14px;
             border-radius: 60px;
             z-index: 3500;
-            font-weight: bold;
-            animation: fadeUp 0.3s;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .badge-pedido {
-            background: #FFB347;
-            color: #1a2a22;
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-size: 0.7rem;
             font-weight: bold;
         }
     </style>
@@ -436,56 +473,62 @@
 
 <!-- Panel Mesero -->
 <div class="mesero-panel" id="meseroPanel">
-    <!-- HEADER FIJO COMPACTO -->
-    <div class="header-fixed">
-        <div class="header-title">
-            🧾 RAPPI ÁRABE
+    <!-- BARRA SUPERIOR MEJORADA -->
+    <div class="header-top">
+        <div class="logo-small">
+            <span>🍢</span>
+            <h2>Rappi Árabe</h2>
         </div>
-        <div class="mesa-selector-compact">
-            <label>📌 Mesa:</label>
-            <select id="mesaSelect" class="mesa-dropdown">
-                <option value="1">Mesa 1</option>
-                <option value="2">Mesa 2</option>
-                <option value="3">Mesa 3</option>
-                <option value="4">Mesa 4</option>
-                <option value="5">Mesa 5</option>
-                <option value="6">Mesa 6</option>
+        <div class="selector-row">
+            <select id="mesaSelect" class="mesa-select">
+                <option value="1">📌 Mesa 1</option>
+                <option value="2">📌 Mesa 2</option>
+                <option value="3">📌 Mesa 3</option>
+                <option value="4">📌 Mesa 4</option>
+                <option value="5">📌 Mesa 5</option>
+                <option value="6">📌 Mesa 6</option>
             </select>
-            <div class="cliente-input-compact">
+            <div class="cliente-input">
                 <input type="text" id="nombreCliente" placeholder="👤 Nombre del cliente" autocomplete="off">
             </div>
         </div>
     </div>
 
-    <!-- Menú de productos -->
+    <!-- Menú -->
     <div class="menu-scroll" id="menuContainer"></div>
 
-    <!-- Botón flotante para abrir carrito -->
-    <div class="toggle-cart-btn" id="toggleCartBtn">
-        🛒
-    </div>
-
-    <!-- Carrito oculto inicialmente -->
-    <div class="cart-bottom" id="cartPanel">
-        <div class="cart-header">
-            <span>🛒 PEDIDO</span>
-            <span id="mesaBadge" class="badge-pedido">Mesa 1</span>
+    <!-- BARRA INFERIOR -->
+    <div class="bottom-bar">
+        <div class="bottom-bar-controls">
+            <div class="send-slide-container" id="sendSlideWrapper">
+                <div class="send-slide-track" id="sendSlideTrack">
+                    <span>📨 DESLIZA PARA ENVIAR →</span>
+                    <span>👉</span>
+                </div>
+            </div>
+            <div class="arrow-toggle" id="arrowToggle">
+                ⬆️
+            </div>
         </div>
-        <div id="cartItemsList" class="cart-items"></div>
-        <div class="total-grande" id="totalCOP">$0 COP</div>
-        <div class="send-slide-btn" id="sendOrderTrigger">
-            <span>📨 ENVIAR PEDIDO →</span>
-            <span>👉</span>
+        
+        <!-- Panel del carrito (oculto por defecto) -->
+        <div class="cart-panel" id="cartPanel">
+            <div class="cart-header">
+                <span>🛒 PEDIDO ACTUAL</span>
+                <span id="mesaBadge" style="background:#E8E4D9; padding:4px 12px; border-radius:20px;">Mesa 1</span>
+            </div>
+            <div id="cartItemsList" class="cart-items"></div>
+            <div class="total-grande" id="totalCOP">$0 COP</div>
         </div>
     </div>
 </div>
 
-<!-- Modal para acompañantes de pinchos -->
-<div class="modal-overlay" id="modalAcompanante">
+<!-- Modal encargadas -->
+<div class="modal-overlay" id="modalEncargada">
     <div class="modal-card">
-        <h3>🍟 ¿CON QUÉ LO QUIERES?</h3>
-        <div class="opcion-acompanante" data-acompanante="papas">🍟 Papas Francesas</div>
-        <div class="opcion-acompanante" data-acompanante="tahine">🥙 Tahine + Pan Árabe</div>
+        <h3>👩‍🍳 ¿QUIÉN TOMA EL PEDIDO?</h3>
+        <div class="encargada-opcion" data-encargada="Paula">👩🏻 PAULA</div>
+        <div class="encargada-opcion" data-encargada="Cindy">👩🏽 CINDY</div>
     </div>
 </div>
 
@@ -526,9 +569,9 @@
     let orders = {};
     for (let i = 1; i <= 6; i++) orders[i] = { items: {}, cliente: "" };
     let currentMesa = 1;
-    let pendingPincho = null; // almacena temporal el pincho seleccionado
+    let pendingPincho = null;
 
-    // Render del menú
+    // Render menú
     function renderMenu() {
         const container = document.getElementById("menuContainer");
         let html = "";
@@ -555,7 +598,6 @@
                 const precio = parseInt(btn.dataset.precio);
                 const categoria = btn.dataset.categoria;
                 
-                // Si es pincho, mostrar modal de acompañante
                 if (categoria === "PINCHOS") {
                     pendingPincho = { nombre, precio };
                     document.getElementById("modalAcompanante").style.display = "flex";
@@ -590,7 +632,7 @@
         
         const items = orders[currentMesa].items;
         if (Object.keys(items).length === 0) {
-            cartDiv.innerHTML = '<div style="text-align:center;opacity:0.7;">Sin productos</div>';
+            cartDiv.innerHTML = '<div style="text-align:center;opacity:0.6;">Sin productos</div>';
             totalSpan.innerText = "$0 COP";
             return;
         }
@@ -629,7 +671,6 @@
         });
     }
 
-    // Envío a Telegram
     async function enviarATelegram(mensaje) {
         const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
         try {
@@ -645,66 +686,12 @@
         }
     }
 
-    function mostrarLoadingYEnviar() {
-        const pedido = orders[currentMesa];
-        if (Object.keys(pedido.items).length === 0) {
-            mostrarToast("⚠️ Agrega productos primero", "#e67e22");
-            return;
-        }
-        if (!pedido.cliente.trim()) {
-            mostrarToast("✏️ Ingresa el nombre del cliente", "#e67e22");
-            return;
-        }
-
-        let detalle = "";
-        let total = 0;
-        for (let [nom, det] of Object.entries(pedido.items)) {
-            const subtotal = det.cantidad * det.precio;
-            total += subtotal;
-            detalle += `🍽️ *${nom}* x${det.cantidad} = $${subtotal.toLocaleString()} COP\n`;
-        }
-        
-        const mensaje = `🧾 *NUEVO PEDIDO RAPPI ÁRABE*\n━━━━━━━━━━━━━━━━━━━━━\n👤 *Cliente:* ${pedido.cliente}\n🪑 *Mesa:* ${currentMesa}\n⏰ *Hora:* ${new Date().toLocaleTimeString()}\n\n📋 *DETALLE:*\n${detalle}\n━━━━━━━━━━━━━━━━━━━━━\n💰 *TOTAL:* $${total.toLocaleString()} COP\n✅ *Estado:* En preparación`;
-
-        // Mostrar dots loading
-        const loader = document.createElement("div");
-        loader.style.position = "fixed";
-        loader.style.top = "0";
-        loader.style.left = "0";
-        loader.style.width = "100%";
-        loader.style.height = "100%";
-        loader.style.background = "rgba(0,0,0,0.9)";
-        loader.style.backdropFilter = "blur(8px)";
-        loader.style.display = "flex";
-        loader.style.flexDirection = "column";
-        loader.style.alignItems = "center";
-        loader.style.justifyContent = "center";
-        loader.style.zIndex = "4000";
-        loader.innerHTML = `
-            <div style="background:#1f3b2c; border-radius: 60px; padding: 40px; text-align:center;">
-                <div style="font-size: 3rem;">🍢</div>
-                <div class="dots-loader" style="margin: 20px 0;"><span></span><span></span><span></span></div>
-                <p style="color:white; font-weight:bold;">Enviando pedido a cocina...</p>
-            </div>
-        `;
-        document.body.appendChild(loader);
-        
-        // 3.5 segundos de loading
-        setTimeout(async () => {
-            const exito = await enviarATelegram(mensaje);
-            loader.remove();
-            if (exito) {
-                mostrarToast("✅ Pedido enviado exitosamente a cocina", "#2ecc71");
-                // LIMPIAR PEDIDO ACTUAL
-                orders[currentMesa] = { items: {}, cliente: pedido.cliente };
-                document.getElementById("nombreCliente").value = pedido.cliente;
-                renderCart();
-                // Cerrar carrito automáticamente
-                document.getElementById("cartPanel").classList.remove("open");
-            } else {
-                mostrarToast("❌ Error al enviar a Telegram", "#e74c3c");
-            }
-        }, 3500);
+    function mostrarMensajeExito() {
+        const successDiv = document.createElement("div");
+        successDiv.className = "success-message";
+        successDiv.innerHTML = "✅ ¡PEDIDO ENVIADO!<br><span style='font-size:0.9rem;'>Cocina en preparación</span>";
+        document.body.appendChild(successDiv);
+        setTimeout(() => successDiv.remove(), 2500);
     }
 
     function mostrarToast(msg, color) {
@@ -716,39 +703,152 @@
         setTimeout(() => toast.remove(), 2500);
     }
 
-    // Inicializar eventos
+    function procesarEnvioConEncargada() {
+        const pedido = orders[currentMesa];
+        if (Object.keys(pedido.items).length === 0) {
+            mostrarToast("⚠️ Agrega productos primero", "#e67e22");
+            return false;
+        }
+        if (!pedido.cliente.trim()) {
+            mostrarToast("✏️ Ingresa el nombre del cliente", "#e67e22");
+            return false;
+        }
+        return true;
+    }
+
+    function ejecutarEnvio(encargada) {
+        const pedido = orders[currentMesa];
+        let detalle = "";
+        let total = 0;
+        for (let [nom, det] of Object.entries(pedido.items)) {
+            const subtotal = det.cantidad * det.precio;
+            total += subtotal;
+            detalle += `🍽️ *${nom}* x${det.cantidad} = $${subtotal.toLocaleString()} COP\n`;
+        }
+        
+        const mensaje = `🧾 *NUEVO PEDIDO RAPPI ÁRABE*\n━━━━━━━━━━━━━━━━━━━━━\n👩‍🍳 *Encargada:* ${encargada}\n👤 *Cliente:* ${pedido.cliente}\n🪑 *Mesa:* ${currentMesa}\n⏰ *Hora:* ${new Date().toLocaleTimeString()}\n\n📋 *DETALLE:*\n${detalle}\n━━━━━━━━━━━━━━━━━━━━━\n💰 *TOTAL:* $${total.toLocaleString()} COP\n✅ *Estado:* En preparación`;
+
+        enviarATelegram(mensaje).then(exito => {
+            if (exito) {
+                mostrarMensajeExito();
+                // Limpiar pedido actual
+                orders[currentMesa] = { items: {}, cliente: pedido.cliente };
+                document.getElementById("nombreCliente").value = pedido.cliente;
+                renderCart();
+                // Cerrar carrito
+                document.getElementById("cartPanel").classList.remove("open");
+                document.getElementById("arrowToggle").innerHTML = "⬆️";
+            } else {
+                mostrarToast("❌ Error al enviar a Telegram", "#e74c3c");
+            }
+        });
+    }
+
+    // Modal acompañante para pinchos
+    const modalAcompanante = document.createElement("div");
+    modalAcompanante.className = "modal-overlay";
+    modalAcompanante.id = "modalAcompanante";
+    modalAcompanante.innerHTML = `
+        <div class="modal-card">
+            <h3>🍟 ¿CON QUÉ LO QUIERES?</h3>
+            <div class="opcion-acompanante" data-acompanante="papas">🍟 Papas Francesas</div>
+            <div class="opcion-acompanante" data-acompanante="tahine">🥙 Tahine + Pan Árabe</div>
+        </div>
+    `;
+    document.body.appendChild(modalAcompanante);
+
+    // Eventos iniciales
     function init() {
         renderMenu();
         renderCart();
         
-        // Selector de mesa
         const mesaSelect = document.getElementById("mesaSelect");
         mesaSelect.addEventListener("change", (e) => {
-            // Guardar cliente actual antes de cambiar
             orders[currentMesa].cliente = document.getElementById("nombreCliente").value;
             currentMesa = parseInt(e.target.value);
             document.getElementById("nombreCliente").value = orders[currentMesa].cliente || "";
             renderCart();
         });
         
-        // Input cliente
         document.getElementById("nombreCliente").addEventListener("input", (e) => {
             orders[currentMesa].cliente = e.target.value;
         });
         
-        // Toggle carrito
-        document.getElementById("toggleCartBtn").addEventListener("click", () => {
-            document.getElementById("cartPanel").classList.toggle("open");
+        // Flecha toggle carrito
+        const arrowToggle = document.getElementById("arrowToggle");
+        const cartPanel = document.getElementById("cartPanel");
+        arrowToggle.addEventListener("click", () => {
+            cartPanel.classList.toggle("open");
+            arrowToggle.innerHTML = cartPanel.classList.contains("open") ? "⬇️" : "⬆️";
         });
         
-        // Botón enviar
-        document.getElementById("sendOrderTrigger").addEventListener("click", mostrarLoadingYEnviar);
+        // Botón deslizable para enviar (SOLO DESLIZAR)
+        const sendWrapper = document.getElementById("sendSlideWrapper");
+        const sendTrack = document.getElementById("sendSlideTrack");
+        let startX = 0, isDragging = false;
+        
+        const resetSlide = () => {
+            sendTrack.style.transform = "translateX(0)";
+        };
+        
+        const handleMove = (clientX) => {
+            if (!isDragging) return;
+            const diff = clientX - startX;
+            if (diff > 80) {
+                isDragging = false;
+                resetSlide();
+                if (procesarEnvioConEncargada()) {
+                    document.getElementById("modalEncargada").style.display = "flex";
+                }
+            } else if (diff > 0) {
+                sendTrack.style.transform = `translateX(${Math.min(diff, 80)}px)`;
+            }
+        };
+        
+        sendWrapper.addEventListener("mousedown", (e) => {
+            startX = e.clientX;
+            isDragging = true;
+            e.preventDefault();
+        });
+        
+        sendWrapper.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+        
+        window.addEventListener("mousemove", (e) => {
+            if (isDragging) handleMove(e.clientX);
+        });
+        window.addEventListener("touchmove", (e) => {
+            if (isDragging) handleMove(e.touches[0].clientX);
+        });
+        window.addEventListener("mouseup", () => {
+            if (isDragging) resetSlide();
+            isDragging = false;
+        });
+        window.addEventListener("touchend", () => {
+            if (isDragging) resetSlide();
+            isDragging = false;
+        });
+        
+        // Modal encargadas
+        const modalEnc = document.getElementById("modalEncargada");
+        document.querySelectorAll(".encargada-opcion").forEach(opt => {
+            opt.addEventListener("click", () => {
+                modalEnc.style.display = "none";
+                const encargada = opt.dataset.encargada;
+                ejecutarEnvio(encargada);
+            });
+        });
+        modalEnc.addEventListener("click", (e) => {
+            if (e.target === modalEnc) modalEnc.style.display = "none";
+        });
         
         // Modal acompañante
-        const modal = document.getElementById("modalAcompanante");
-        document.querySelectorAll(".opcion-acompanante").forEach(opt => {
+        const modalAcomp = document.getElementById("modalAcompanante");
+        document.querySelectorAll("#modalAcompanante .opcion-acompanante").forEach(opt => {
             opt.addEventListener("click", () => {
-                modal.style.display = "none";
+                modalAcomp.style.display = "none";
                 if (pendingPincho) {
                     const acompanante = opt.dataset.acompanante;
                     agregarProducto(pendingPincho.nombre, pendingPincho.precio, acompanante);
@@ -756,11 +856,9 @@
                 }
             });
         });
-        
-        // Cerrar modal tocando fuera
-        modal.addEventListener("click", (e) => {
-            if (e.target === modal) {
-                modal.style.display = "none";
+        modalAcomp.addEventListener("click", (e) => {
+            if (e.target === modalAcomp) {
+                modalAcomp.style.display = "none";
                 pendingPincho = null;
             }
         });
@@ -778,7 +876,7 @@
                 document.getElementById("loadingScreen").style.opacity = "0";
                 setTimeout(() => {
                     document.getElementById("loadingScreen").style.display = "none";
-                    document.getElementById("meseroPanel").style.display = "block";
+                    document.getElementById("meseroPanel").style.display = "flex";
                     init();
                 }, 400);
             }
