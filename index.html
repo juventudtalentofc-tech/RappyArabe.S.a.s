@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Rappi Árabe | Sistema Mesero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #0a0c12;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        /* Pantalla de carga (DOTS LOADING) */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 10%, #1e3a2f, #071a12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .logo-big {
+            text-align: center;
+            margin-bottom: 32px;
+            animation: fadeUp 0.8s ease;
+        }
+
+        .logo-big h1 {
+            font-size: 3.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD966, #FFB347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .logo-big p {
+            color: #FFD966;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 6px;
+            letter-spacing: 2px;
+        }
+
+        .dots-loader {
+            display: flex;
+            gap: 12px;
+            margin: 24px 0 40px;
+        }
+
+        .dots-loader span {
+            width: 14px;
+            height: 14px;
+            background: #FFB347;
+            border-radius: 50%;
+            animation: bounce 1.2s infinite ease-in-out;
+        }
+
+        .dots-loader span:nth-child(2) { animation-delay: 0.15s; background: #FFD966; }
+        .dots-loader span:nth-child(3) { animation-delay: 0.3s; background: #FFA559; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1.2); opacity: 1; }
+        }
+
+        /* Botón deslizante tipo RAPPI */
+        .slide-btn-container {
+            width: 280px;
+            background: rgba(255,255,240,0.08);
+            border-radius: 60px;
+            padding: 4px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,215,0,0.3);
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .slide-btn {
+            background: #FFB347;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            width: 100%;
+            transition: all 0.2s;
+            color: #1e2a1f;
+            font-weight: bold;
+            gap: 12px;
+            user-select: none;
+        }
+
+        .slide-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .slide-arrow {
+            font-size: 1.6rem;
+            transition: transform 0.2s;
+        }
+
+        /* pantalla principal mesero (oculta inicialmente) */
+        .mesero-panel {
+            display: none;
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+            background: #fef9ef;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.4);
+            animation: fadeSlide 0.4s ease;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* header */
+        .header-mesero {
+            background: #1f3b2c;
+            padding: 20px 20px 16px;
+            color: white;
+        }
+
+        .header-mesero h2 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mesa-selector {
+            background: #2b4a38;
+            border-radius: 40px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .mesa-btn {
+            background: #f4e3b1;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #1f2a1b;
+            transition: 0.1s;
+            cursor: pointer;
+            min-width: 55px;
+        }
+
+        .mesa-btn.active {
+            background: #FFB347;
+            box-shadow: 0 0 0 2px white;
+            color: #1f2f1c;
+        }
+
+        .cliente-input {
+            margin: 12px 0 0;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .cliente-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 60px;
+            border: none;
+            font-size: 0.9rem;
+            background: #fff3e0;
+        }
+
+        /* menú categorías */
+        .menu-container {
+            padding: 20px 16px;
+            max-height: 55vh;
+            overflow-y: auto;
+        }
+
+        .categoria {
+            margin-bottom: 24px;
+        }
+
+        .categoria h3 {
+            font-size: 1.4rem;
+            background: #FFE8C5;
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 30px;
+            margin-bottom: 14px;
+            color: #4b2e1a;
+        }
+
+        .item-menu {
+            background: white;
+            border-radius: 28px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: all 0.1s;
+            border: 1px solid #ffdfb8;
+        }
+
+        .item-info {
+            font-weight: 600;
+        }
+
+        .item-precio {
+            color: #B85C1A;
+            font-weight: 800;
+        }
+
+        .agregar-btn {
+            background: #ffb347;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        /* carrito flotante */
+        .cart-floating {
+            background: #1f2e24;
+            border-radius: 28px 28px 0 0;
+            padding: 16px;
+            border-top: 3px solid #FFB347;
+            color: white;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .cart-items-list {
+            max-height: 210px;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            background: #2e4238;
+            border-radius: 40px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cart-item-name {
+            flex: 2;
+            font-size: 0.85rem;
+        }
+
+        .cart-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .cart-controls button {
+            background: #FFB347;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .eliminar-item {
+            background: #c0392b;
+            color: white;
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .total-amount {
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-align: right;
+            border-top: 1px solid #FFB347;
+            padding-top: 10px;
+            margin: 8px 0;
+        }
+
+        .send-slide {
+            background: #ffb347;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            margin-top: 8px;
+            cursor: pointer;
+            transition: 0.1s;
+            color: #1c2c1a;
+            font-weight: bold;
+        }
+
+        .pedido-exito-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 20px;
+            right: 20px;
+            background: #2b7a4b;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            border-radius: 50px;
+            z-index: 1200;
+            font-weight: bold;
+            animation: fadeUp 0.3s;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* botón ver carrito? ya está abajo, pero si quieres un boton adicional */
+        .ver-carrito-btn {
+            background: none;
+            border: none;
+            color: #FFB347;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<!-- pantalla de loading con logo y boton deslizante -->
+<div class="loading-screen" id="loadingScreen">
+    <div class="logo-big">
+        <h1>🍢 RAPPI ÁRABE</h1>
+        <p>comida de autor · especias del mediterráneo</p>
+    </div>
+    <div class="dots-loader">
+        <span></span><span></span><span></span>
+    </div>
+    <div class="slide-btn-container" id="slideEntryBtn">
+        <div class="slide-btn" id="slideTrigger">
+            <span class="slide-text">DESLIZA PARA ENTRAR →</span>
+            <span class="slide-arrow">➡️</span>
+        </div>
+    </div>
+</div>
+
+<!-- panel principal mesero -->
+<div class="mesero-panel" id="meseroPanel">
+    <div class="header-mesero">
+        <h2>🧾 RAPPI ÁRABE</h2>
+        <div class="mesa-selector" id="mesasContainer">
+            <!-- mesas dinamicas del 1 al 6 -->
+        </div>
+        <div class="cliente-input">
+            <input type="text" id="nombreCliente" placeholder="Nombre del cliente" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="menu-container" id="menuCategorias">
+        <!-- se llena con js -->
+    </div>
+
+    <div class="cart-floating">
+        <div class="cart-header">
+            <span>🛒 Pedido actual</span>
+            <span id="mesaActualLabel">Mesa: --</span>
+        </div>
+        <div id="cartItemsList" class="cart-items-list">
+            <div style="text-align:center; opacity:0.7;">Sin productos</div>
+        </div>
+        <div class="total-amount" id="totalCOP">$0 COP</div>
+        <div class="send-slide" id="sendOrderSlide">
+            <span>📨 ENVIAR PEDIDO →</span>
+            <span style="font-size:1.3rem;">👉</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ----- MENÚ COMPLETO RAPPI ÁRABE -----
+    const menuData = {
+        "PLATOS PRINCIPALES": [
+            { nombre: "Quibbe", precio: 3000 },
+            { nombre: "Combo Quibbe", precio: 12000 },
+            { nombre: "Combo Deditos", precio: 12000 },
+            { nombre: "Combo Carimañolas", precio: 12000 },
+            { nombre: "Bandeja de Quibbe", precio: 26000 },
+            { nombre: "Trio Rapiárabe", precio: 30000 }
+        ],
+        "ESPECIALIDADES": [
+            { nombre: "Tahine Especial", precio: 18000 },
+            { nombre: "Tahine Especial de Pollo", precio: 16000 },
+            { nombre: "Tahine TOGO", precio: 10000 }
+        ],
+        "PINCHOS": [
+            { nombre: "Pincho de Pollo", precio: 22000 },
+            { nombre: "Pincho de Lomo Fino", precio: 28000 },
+            { nombre: "Pincho de Bondiola de Cerdo", precio: 25000 },
+            { nombre: "Pincho Mixto", precio: 26000 }
+        ],
+        "CONGELADOS": [
+            { nombre: "Paquete de Quibbe Congelado", precio: 20000 },
+            { nombre: "Bandeja de Deditos de Queso Congelado", precio: 15000 },
+            { nombre: "Bandeja de Carimañola Congelado", precio: 15000 }
+        ]
+    };
+
+    // Estado del pedido { mesaId: { items: {nombre: {cantidad, precio}}, clienteNombre } }
+    let orders = {};
+    let currentMesa = 1;      // mesa activa (1..6)
+    let currentCliente = "";
+
+    // Inicializar estructura para 6 mesas
+    for (let i = 1; i <= 6; i++) {
+        orders[i] = { items: {}, clienteNombre: "" };
+    }
+
+    // función renderizar menú dinámico
+    function renderMenu() {
+        const container = document.getElementById("menuCategorias");
+        if (!container) return;
+        let html = "";
+        for (let [categoria, items] of Object.entries(menuData)) {
+            html += `<div class="categoria"><h3>${categoria}</h3>`;
+            items.forEach(item => {
+                html += `
+                    <div class="item-menu">
+                        <div>
+                            <div class="item-info">${item.nombre}</div>
+                            <div class="item-precio">$${item.precio.toLocaleString()} COP</div>
+                        </div>
+                        <button class="agregar-btn" data-nombre="${item.nombre}" data-precio="${item.precio}">+</button>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+        }
+        container.innerHTML = html;
+
+        // agregar eventos a los botones +
+        document.querySelectorAll(".agregar-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const nombre = btn.getAttribute("data-nombre");
+                const precio = parseInt(btn.getAttribute("data-precio"));
+                agregarProductoAMesa(currentMesa, nombre, precio);
+            });
+        });
+    }
+
+    function agregarProductoAMesa(mesa, nombre, precio) {
+        if (!orders[mesa]) orders[mesa] = { items: {}, clienteNombre: "" };
+        const orderMesa = orders[mesa];
+        if (!orderMesa.items[nombre]) {
+            orderMesa.items[nombre] = { cantidad: 1, precio: precio };
+        } else {
+            orderMesa.items[nombre].cantidad += 1;
+        }
+        // si hay nombre cliente en input se asigna, sino mantener
+        const inputCliente = document.getElementById("nombreCliente");
+        if (inputCliente.value.trim() !== "") {
+            orderMesa.clienteNombre = inputCliente.value.trim();
+            currentCliente = inputCliente.value.trim();
+        }
+        renderCarrito();
+    }
+
+    function renderCarrito() {
+        const cartContainer = document.getElementById("cartItemsList");
+        const totalSpan = document.getElementById("totalCOP");
+        const mesaLabel = document.getElementById("mesaActualLabel");
+        if (!cartContainer) return;
+
+        const orderActual = orders[currentMesa] || { items: {}, clienteNombre: "" };
+        const itemsObj = orderActual.items;
+        mesaLabel.innerText = `Mesa: ${currentMesa}`;
+        
+        if (Object.keys(itemsObj).length === 0) {
+            cartContainer.innerHTML = `<div style="text-align:center; opacity:0.7;">Sin productos</div>`;
+            totalSpan.innerText = `$0 COP`;
+            return;
+        }
+        
+        let total = 0;
+        let cartHtml = "";
+        for (let [nombre, detalle] of Object.entries(itemsObj)) {
+            const subtotal = detalle.cantidad * detalle.precio;
+            total += subtotal;
+            cartHtml += `
+                <div class="cart-item">
+                    <span class="cart-item-name">${nombre} x${detalle.cantidad}</span>
+                    <div class="cart-controls">
+                        <button data-nombre="${nombre}" data-op="sumar">+</button>
+                        <button data-nombre="${nombre}" data-op="restar">-</button>
+                        <button class="eliminar-item" data-nombre="${nombre}">🗑️</button>
+                    </div>
+                    <span>$${subtotal.toLocaleString()}</span>
+                </div>
+            `;
+        }
+        cartContainer.innerHTML = cartHtml;
+        totalSpan.innerText = `$${total.toLocaleString()} COP`;
+
+        // agregar eventos de sumar/restar/eliminar
+        document.querySelectorAll(".cart-controls button").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const nombre = btn.getAttribute("data-nombre");
+                const op = btn.getAttribute("data-op");
+                const mesa = currentMesa;
+                if (!orders[mesa] || !orders[mesa].items[nombre]) return;
+                
+                if (op === "sumar") {
+                    orders[mesa].items[nombre].cantidad += 1;
+                } else if (op === "restar") {
+                    const nuevaCant = orders[mesa].items[nombre].cantidad - 1;
+                    if (nuevaCant <= 0) {
+                        delete orders[mesa].items[nombre];
+                    } else {
+                        orders[mesa].items[nombre].cantidad = nuevaCant;
+                    }
+                }
+                renderCarrito();
+            });
+        });
+        document.querySelectorAll(".eliminar-item").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const nombre = btn.getAttribute("data-nombre");
+                if (orders[currentMesa] && orders[currentMesa].items[nombre]) {
+                    delete orders[currentMesa].items[nombre];
+                    renderCarrito();
+                }
+            });
+        });
+    }
+
+    // cambiar mesa
+    function initMesas() {
+        const mesaContainer = document.getElementById("mesasContainer");
+        mesaContainer.innerHTML = "";
+        for (let i = 1; i <= 6; i++) {
+            const btn = document.createElement("button");
+            btn.innerText = `Mesa ${i}`;
+            btn.classList.add("mesa-btn");
+            if (i === currentMesa) btn.classList.add("active");
+            btn.addEventListener("click", () => {
+                // guardar nombre del cliente actual antes de cambiar
+                const inputCliente = document.getElementById("nombreCliente");
+                if (inputCliente.value.trim() !== "") {
+                    orders[currentMesa].clienteNombre = inputCliente.value.trim();
+                }
+                currentMesa = i;
+                // cargar nombre del cliente de esa mesa si existe
+                const clienteGuardado = orders[currentMesa].clienteNombre || "";
+                document.getElementById("nombreCliente").value = clienteGuardado;
+                // actualizar botones activos
+                document.querySelectorAll(".mesa-btn").forEach(btn => btn.classList.remove("active"));
+                btn.classList.add("active");
+                renderCarrito();
+            });
+            mesaContainer.appendChild(btn);
+        }
+    }
+
+    // evento input nombre cliente
+    function bindClienteInput() {
+        const input = document.getElementById("nombreCliente");
+        input.addEventListener("input", (e) => {
+            const val = e.target.value;
+            if (orders[currentMesa]) {
+                orders[currentMesa].clienteNombre = val;
+            }
+        });
+    }
+
+    // ENVIAR PEDIDO a TELEGRAM (simulación + loading dots y deslizamiento)
+    function setupSendOrder() {
+        const sendDiv = document.getElementById("sendOrderSlide");
+        if (!sendDiv) return;
+        
+        let startX = 0, isDragging = false;
+        sendDiv.style.touchAction = "pan-y pinch-zoom";
+        
+        // para escritorio también mouse
+        sendDiv.addEventListener("mousedown", (e) => {
+            startX = e.clientX;
+            isDragging = true;
+            sendDiv.style.transition = "none";
+        });
+        window.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            const diff = e.clientX - startX;
+            if (diff > 70) {
+                // deslizado con éxito
+                isDragging = false;
+                sendDiv.style.transition = "";
+                ejecutarEnvioPedido();
+            }
+        });
+        window.addEventListener("mouseup", () => {
+            isDragging = false;
+            sendDiv.style.transition = "";
+        });
+        
+        sendDiv.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            sendDiv.style.transition = "none";
+        });
+        window.addEventListener("touchmove", (e) => {
+            if (!isDragging) return;
+            const diff = e.touches[0].clientX - startX;
+            if (diff > 70) {
+                isDragging = false;
+                sendDiv.style.transition = "";
+                ejecutarEnvioPedido();
+            }
+        });
+        window.addEventListener("touchend", () => {
+            isDragging = false;
+            sendDiv.style.transition = "";
+        });
+    }
+    
+    function ejecutarEnvioPedido() {
+        const order = orders[currentMesa];
+        if (!order || Object.keys(order.items).length === 0) {
+            mostrarToast("⚠️ Agrega productos antes de enviar", "#c0392b");
+            return;
+        }
+        const clienteNom = order.clienteNombre?.trim() || "Cliente sin nombre";
+        // mostrar dots loading en botón temporal? mostrar un overlay loading
+        const loadingOverlay = document.createElement("div");
+        loadingOverlay.style.position = "fixed";
+        loadingOverlay.style.top = "0";
+        loadingOverlay.style.left = "0";
+        loadingOverlay.style.width = "100%";
+        loadingOverlay.style.height = "100%";
+        loadingOverlay.style.backgroundColor = "rgba(0,0,0,0.7)";
+        loadingOverlay.style.display = "flex";
+        loadingOverlay.style.flexDirection = "column";
+        loadingOverlay.style.alignItems = "center";
+        loadingOverlay.style.justifyContent = "center";
+        loadingOverlay.style.zIndex = "2000";
+        loadingOverlay.style.backdropFilter = "blur(6px)";
+        loadingOverlay.innerHTML = `<div style="background:#1f3b2c; padding:32px; border-radius:60px; text-align:center;">
+            <div style="font-size:3rem;">🍢</div>
+            <div class="dots-loader" style="margin:16px 0"><span></span><span></span><span></span></div>
+            <p style="color:white;">Enviando a cocina...</p>
+        </div>`;
+        document.body.appendChild(loadingOverlay);
+        
+        // Simular envio a Telegram (en realidad podría ser webhook)
+        setTimeout(() => {
+            // Construir mensaje detallado
+            let detalleItems = "";
+            for (let [nombre, det] of Object.entries(order.items)) {
+                detalleItems += `🍽️ ${nombre} x${det.cantidad} = $${(det.cantidad * det.precio).toLocaleString()} COP\n`;
+            }
+            let totalPedido = 0;
+            for (let det of Object.entries(order.items)) {
+                totalPedido += det[1].cantidad * det[1].precio;
+            }
+            const mensaje = `🧾 *NUEVO PEDIDO RAPPI ÁRABE*\n👤 Cliente: ${clienteNom}\n🪑 Mesa: ${currentMesa}\n\n📋 Pedido:\n${detalleItems}\n💰 TOTAL: $${totalPedido.toLocaleString()} COP\n⏱️ Enviado desde sistema móvil.`;
+            
+            // Aquí se integraría el webhook real de Telegram. Simulamos en consola.
+            console.log("📤 Enviando a Telegram (simulado):", mensaje);
+            // Simular exito
+            loadingOverlay.remove();
+            mostrarToast("✅ Pedido enviado a la cocina (Telegram)", "#2b7a4b");
+            // limpiar pedido de la mesa actual (opcional: no limpiar si desea mantener, pero lo dejamos para nueva orden)
+            orders[currentMesa] = { items: {}, clienteNombre: orders[currentMesa].clienteNombre || "" };
+            renderCarrito();
+            document.getElementById("nombreCliente").value = orders[currentMesa].clienteNombre || "";
+        }, 1500);
+    }
+    
+    function mostrarToast(msg, bg) {
+        const toast = document.createElement("div");
+        toast.className = "pedido-exito-toast";
+        toast.innerText = msg;
+        toast.style.backgroundColor = bg;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+    
+    // animación de entrada: botón deslizante en loading screen
+    function initEntrySlide() {
+        const containerBtn = document.getElementById("slideEntryBtn");
+        const slideDiv = document.getElementById("slideTrigger");
+        let startXEntry = 0, draggingEntry = false;
+        let initialClientX = 0;
+        const updateSlide = (diff) => {
+            if (diff > 70) {
+                // desbloquear sistema
+                document.getElementById("loadingScreen").style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById("loadingScreen").style.display = "none";
+                    document.getElementById("meseroPanel").style.display = "block";
+                }, 450);
+                window.removeEventListener("mousemove", mousemoveHandler);
+                window.removeEventListener("mouseup", mouseupHandler);
+            }
+        };
+        const mousemoveHandler = (e) => {
+            if (!draggingEntry) return;
+            const diff = e.clientX - startXEntry;
+            if (diff > 70) updateSlide(diff);
+        };
+        const mouseupHandler = () => {
+            draggingEntry = false;
+        };
+        slideDiv.addEventListener("mousedown", (e) => {
+            startXEntry = e.clientX;
+            draggingEntry = true;
+            window.addEventListener("mousemove", mousemoveHandler);
+            window.addEventListener("mouseup", mouseupHandler);
+        });
+        slideDiv.addEventListener("touchstart", (e) => {
+            startXEntry = e.touches[0].clientX;
+            draggingEntry = true;
+        });
+        window.addEventListener("touchmove", (e) => {
+            if (!draggingEntry) return;
+            const diff = e.touches[0].clientX - startXEntry;
+            if (diff > 70) updateSlide(diff);
+        });
+        window.addEventListener("touchend", () => { draggingEntry = false; });
+    }
+    
+    // inicialización total
+    function init() {
+        initMesas();
+        renderMenu();
+        bindClienteInput();
+        renderCarrito();
+        setupSendOrder();
+        initEntrySlide();
+        // precargar nombre cliente si existe
+        document.getElementById("nombreCliente").addEventListener("keyup", () => {
+            if(orders[currentMesa]) orders[currentMesa].clienteNombre = document.getElementById("nombreCliente").value;
+        });
+    }
+    
+    init();
+</script>
+</body>
+</html>
